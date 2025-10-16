@@ -8,6 +8,16 @@ const removeRowButton = document.querySelector('.remove-row');
 const appendColButton = document.querySelector('.append-column');
 const removeColButton = document.querySelector('.remove-column');
 
+if (
+  !table ||
+  !appendRowButton ||
+  !removeRowButton ||
+  !appendColButton ||
+  !removeColButton
+) {
+  throw new Error('Required DOM elements not found');
+}
+
 const MIN = 2;
 const MAX = 10;
 
@@ -46,7 +56,9 @@ appendRowButton.addEventListener('click', () => {
     newRow.appendChild(document.createElement('td'));
   }
 
-  table.appendChild(newRow);
+  const tbody = table.querySelector('tbody');
+
+  tbody.appendChild(newRow);
   updateButtonsState();
 });
 
@@ -107,7 +119,11 @@ removeColButton.addEventListener('click', () => {
     const tds = tr.querySelectorAll('td');
 
     if (tds.length) {
-      tds[tds.length - 1]?.remove();
+      const lastTd = tds[tds.length - 1];
+
+      if (lastTd) {
+        lastTd.remove();
+      }
     }
   });
 
